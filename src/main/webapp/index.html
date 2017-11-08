@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MY</title>
+    <link rel="stylesheet" href="css/mdui.min.css">
+
+    <style>
+        .doc-container{
+            padding-top: 80px;
+            padding-bottom: 100px;
+        }
+        .mdui-textfield-expandable.mdui-textfield-expanded{
+            width: 20%;
+        }
+        .mag_bottom{
+            margin-bottom: 10px;
+        }
+        .mdui-card-primary-title{
+            font-size:18px;
+            line-height:15px;
+        }
+        .mdui-card-primary{
+            padding:10px 16px 10px 16px;
+        }
+    </style>
+
+
+</head>
+<body class="mdui-appbar-with-toolbar mdui-theme-primary-deep-purple mdui-theme-accent-pink mdui-loaded mdui-drawer-body-left" style="padding-top: 20px;">
+<!---头  导航栏 start--->
+<div class="mdui-appbar mdui-appbar-fixed ">
+    <div class="mdui-toolbar mdui-color-theme">
+        <span class="mdui-hoverable mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" mdui-drawer="{target: '#drawer', swipe: true}"><i class="mdui-icon material-icons">menu</i></span>
+        <a class="mdui-typo-headline">MY</a>
+        <div class="mdui-toolbar-spacer"></div>
+        <div class="mdui-textfield mdui-textfield-expandable">
+            <button id="sousuo_anniu" class="mdui-textfield-icon mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">&#xe8b6;</i></button>
+            <input id="sousuo_text" class="mdui-textfield-input" type="text" placeholder="Search"/>
+            <button class="mdui-textfield-close mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">&#xe5cd;</i></button>
+        </div>
+        <a href="javascript:;" onclick="location.reload()" class="mdui-hoverable mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">refresh</i></a>
+        <a href="javascript:;" class="mdui-hoverable mdui-btn mdui-btn-icon" mdui-menu="{target: '#caidan_sandian'}"><i class="mdui-icon material-icons" >more_vert</i></a>
+        <!--菜单 start-->
+        <ul class="mdui-menu" id="caidan_sandian">
+            <li class="mdui-menu-item">
+                <a href="javascript:;" class="mdui-ripple">
+                    <i class="mdui-menu-item-icon mdui-icon material-icons">&#xe417;</i>Preview
+                </a>
+            </li>
+            <li class="mdui-menu-item">
+                <a href="javascript:;" class="mdui-ripple">
+                    <i class="mdui-menu-item-icon mdui-icon material-icons">&#xe2c4;</i>Download
+                </a>
+            </li>
+            <li class="mdui-divider"></li>
+            <li class="mdui-menu-item">
+                <a href="javascript:;" class="mdui-ripple">
+                    <i class="mdui-menu-item-icon mdui-icon material-icons">&#xe872;</i>Remove
+                </a>
+            </li>
+            <li class="mdui-menu-item">
+                <a href="javascript:;" class="mdui-ripple">
+                    <i class="mdui-menu-item-icon"></i>Empty
+                </a>
+            </li>
+        </ul>
+        <!---菜单 end-->
+    </div>
+</div>
+<!---头  导航栏 end--->
+<!--侧滑  start-->
+<div class="mdui-drawer" id="drawer">
+    <ul class="mdui-list">
+        <li class="mdui-list-item mdui-ripple">
+            <i class="mdui-list-item-icon mdui-icon material-icons">move_to_inbox</i>
+            <div class=" mdui-list-item-content">下载</div>
+        </li>
+        <li class="mdui-subheader">更多</li>
+        <li class="mdui-list-item mdui-ripple" mdui-dialog="{target: '#guanyu'}">
+            <i class="mdui-list-item-icon mdui-icon material-icons">error</i>
+            <div class=" mdui-list-item-content" >关于</div>
+        </li>
+    </ul>
+</div>
+<!--侧滑  end-->
+
+<!--内容区-->
+<div class="mdui-container doc-container">
+    <audio autoplay  id="yinpin" src="" style="width: 60%" controls="controls">
+        Your browser does not support the audio tag.
+    </audio>
+    <div class="mdui-typo">
+        <h3>一个音乐搜索WebApp<small>----MY</small></h3>
+        <h4>点击右上角搜索按钮进行搜索歌曲<small>----MY</small></h4>
+    </div>
+    <div class="mdui-divider"></div>
+    <br/>
+    <div class="mdui-row">
+        <div class="mdui-row-xs-4" id="liebiao">
+
+        </div>
+    </div>
+</div>
+
+
+<!---对话框 start-->
+<div class="mdui-dialog" id="guanyu">
+    <div class="mdui-dialog-title"><small>关于</small></div>
+    <div class="mdui-dialog-content">MY 使用了网易云的源 而做的一个小型搜索音乐webapp</div>
+    <div class="mdui-dialog-actions">
+        <button class="mdui-btn mdui-ripple" mdui-dialog-close>cancel</button>
+    </div>
+</div>
+<!---对话框 end-->
+<script src="js/mdui.min.js"></script>
+<script src="js/jquery-1.7.2.min.js"></script>
+<script src="js/common.js"></script>
+<script>
+    function sousuoGequ(datas) {
+        var url="apisousuo.action";
+        HrManager.sendAjaxPost(url,datas,function (data) {
+            $("#liebiao").empty();
+            $(data).each(function (index,obj) {
+                var $pj="<div class=\"mdui-col-md-3 mdui-col-sm-6 mdui-col-xs-12 mag_bottom\">\n" +
+                    "                <div class=\"mdui-card\">\n" +
+                    "                    <div class=\"mdui-card-media\">\n" +
+                    "                        <img src=\""+obj.al.picUrl+"\"/>\n" +
+                    "                        <div class=\"mdui-card-media-covered \">\n" +
+                    "                            <div class=\"mdui-card-primary \">\n" +
+                    "                                <div class=\" mdui-card-primary-title\">"+obj.name+"</div>\n" +
+                    "                                <div class=\" mdui-card-primary-subtitle\">"+obj.ar[0].name+"</div>\n" +
+                    "                            </div>\n" +
+                    "                        </div>\n" +
+                    "                    </div>\n" +
+                    "                    <div class=\"mdui-card-actions \">\n" +
+                    "                        <span name='bofang_anniu' id='bofang_anniiu' data-id='"+obj.id+"'  class=\" mdui-hoverable mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white\"><i class=\"mdui-icon material-icons\">&#xe038;</i></span>\n" +
+                    "                        <span class=\"mdui-hoverable mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white\"><i class=\"mdui-icon material-icons\">&#xe2c0;</i></span>\n" +
+                    "                    </div>\n" +
+                    "                </div>\n" +
+                    "            </div>";
+                $("#liebiao").append($pj);
+            })
+        });
+    }
+    sousuoGequ(null);
+    $("#sousuo_anniu").click(function () {
+        var sousuo_name=$("#sousuo_text").val();
+        var datass={'sousuo':sousuo_name};
+        sousuoGequ(datass);
+    });
+    var ppid=0;
+    $("#liebiao").on("click","[name='bofang_anniu']",function () {
+        var id=$(this).attr("data-id");
+        var audio = document.getElementById("yinpin");
+        if(ppid==id){
+            if(!audio.paused)
+            {
+                audio.pause();
+                $("[data-id='"+id+"'] ").empty();
+                $("[data-id='"+id+"'] ").append("<i class=\"mdui-icon material-icons\">&#xe034;</i>");
+            }else{
+                audio.play();
+                $("[data-id='"+id+"'] ").empty();
+                $("[data-id='"+id+"'] ").append("<i class=\"mdui-icon material-icons\">&#xe035;</i>");
+            }
+        }else{
+            HrManager.sendAjaxPost("get_gequ.action",{"gq_id":id},function (data_gq) {
+                $("#yinpin").attr("src",data_gq.url);
+                $("[name='bofang_anniu']").empty();
+                $("[name='bofang_anniu']").append("<i class=\"mdui-icon material-icons\">&#xe038;</i>");
+                $("[data-id='"+id+"'] ").empty();
+                $("[data-id='"+id+"'] ").append("<i class=\"mdui-icon material-icons\">&#xe035;</i>");
+                ppid=id;
+            })
+        }
+
+    });
+</script>
+</body>
+</html>
